@@ -11,7 +11,7 @@
         <h1>Hôpital La Manu</h1>
         <h2>Accueil</h2>
         <div class="row d-flex justify-content-center">
-            <div class="col-6-sd col-12-sm text-center">
+            <div class="col-6-sd col-12-sm text-center links">
                 <div class="col-12 d-flex justify-content-around">
                     <a class="pageLinks bg-primary col-6" href="ajout-patient.php">Ajouter un patient</a>
                     <a class="pageLinks bg-primary col-6" href="liste-patients.php">Liste des patients</a>
