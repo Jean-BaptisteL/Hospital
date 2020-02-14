@@ -1,0 +1,15 @@
+#modificationForm{
+    display: none;
+}
+.pageLinks{
+    margin: 5px;
+    font-size: 2em;
+    margin-top: 50px;
+    color: white;
+}
+.links{
+    margin-top: 50%;
+}
+h1{
+    text-align: center;
+}
