@@ -1,43 +1,57 @@
 <?php
 include_once 'models/patients.php';
 include_once 'controllers/profil-patientCtrl.php';
+$pageTitle = 'Profil Patient';
+include_once 'includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, user-scalable=no" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="assets/css/style.css" />
-        <title>Profil Patient</title>
-    </head>
-    <body>
         <a href="index.php">Accueil</a>
-        <h1>Profil de <?= $profilPatient->firstname ?> <?= $profilPatient->lastname ?></h1>
-        <p>NOM : <?= $profilPatient->lastname ?></p>
-        <p>Prénom : <?= $profilPatient->firstname ?></p>
-        <p>Date de naissance = <?= $profilPatient->birthdate ?></p>
-        <p>Numéro de téléphone : <?= $profilPatient->phone ?></p>
-        <p>Adresse mail : <?= $profilPatient->mail ?></p>
+        <h1>Profil de <?= $profilPatient[0]->firstname ?> <?= $profilPatient[0]->lastname ?></h1>
+        <p>NOM : <?= $profilPatient[0]->lastname ?></p>
+        <p>Prénom : <?= $profilPatient[0]->firstname ?></p>
+        <p>Date de naissance = <?= $profilPatient[0]->birthdate ?></p>
+        <p>Numéro de téléphone : <?= $profilPatient[0]->phone ?></p>
+        <p>Adresse mail : <?= $profilPatient[0]->mail ?></p>
+        <?php
+        if($profilPatient[0]->dateAppointment != NULL && $profilPatient[0]->timeAppointment != NULL){
+        ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rendez-vous</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($profilPatient as $patient){
+                ?>
+                <tr>
+                    <td>Le <?= $patient->dateAppointment ?> à <?= $patient->timeAppointment ?></td>
+                    <td><a href="rendezvous.php?idPatients=<?= $patient->idPatients ?>&dateHour=<?= $patient->dateHour ?>&id=<?= $patient->appointmentId ?>">Infos</a></td>
+                </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+        </table>
+        <?php
+        }
+        ?>
         <button id="showOrHideForm">Modifier</button>
         <div id="modificationForm">
             <form action="" method="POST">
-                <label for="lastname">Nom : </label><input type="text" name="lastname" id="lastname" value="<?= $profilPatient->lastname ?>" required />
+                <label for="lastname">Nom : </label><input type="text" name="lastname" id="lastname" value="<?= $profilPatient[0]->lastname ?>" required />
                 <p class="text-danger"><?= isset($errorMessage['lastname']) ? $errorMessage['lastname'] : '' ?></p>
-                <label for="firstname">Prénom : </label><input type="text" name="firstname" id="firstname" value="<?= $profilPatient->firstname ?>" required />
+                <label for="firstname">Prénom : </label><input type="text" name="firstname" id="firstname" value="<?= $profilPatient[0]->firstname ?>" required />
                 <p class="text-danger"><?= isset($errorMessage['firstname']) ? $errorMessage['firstname'] : '' ?></p>
-                <label for="birthdate">Date de naissance : </label><input type="date" name="birthdate" id="birthdate" value="<?= $profilPatient->ymdBirthdate ?>" required />
+                <label for="birthdate">Date de naissance : </label><input type="date" name="birthdate" id="birthdate" value="<?= $profilPatient[0]->ymdBirthdate ?>" required />
                 <p class="text-danger"><?= isset($errorMessage['birthdate']) ? $errorMessage['birthdate'] : '' ?></p>
-                <label for="phoneNumber">Numéro de téléphone : </label><input type="tel" name="phoneNumber" id="phoneNumber" value="<?= $profilPatient->phone ?>" required />
+                <label for="phoneNumber">Numéro de téléphone : </label><input type="tel" name="phoneNumber" id="phoneNumber" value="<?= $profilPatient[0]->phone ?>" required />
                 <p class="text-danger"><?= isset($errorMessage['phoneNumber']) ? $errorMessage['phoneNumber'] : '' ?></p>
-                <label for="email">Adresse mail : </label><input type="email" name="email" id="email" value="<?= $profilPatient->mail ?>" required />
+                <label for="email">Adresse mail : </label><input type="email" name="email" id="email" value="<?= $profilPatient[0]->mail ?>" required />
                 <p class="text-danger"><?= isset($errorMessage['email']) ? $errorMessage['email'] : '' ?></p>
-                <input type="submit" name="addPatient" id="addPatient" value="Enregistrer" />
+                <input type="submit" name="modifyPatient" id="modifyPatient" value="Enregistrer" />
             </form>
         </div>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="assets/js/script.js"></script>
-    </body>
-</html>
+<?php
+include_once 'includes/footer.php';

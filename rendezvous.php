@@ -1,6 +1,8 @@
 <?php
 include_once 'models/appointments.php';
 include_once 'controllers/rendezvousCTRL.php';
+$pageTitle = 'Détails du rendez-vous';
+include_once 'includes/header.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
@@ -21,6 +23,15 @@ include_once 'controllers/rendezvousCTRL.php';
             <li>Adresse mail : <?= $appointmentDetails->mail ?></li>
             <li>Rendez-vous le <?= $appointmentDetails->date ?> à <?= $appointmentDetails->hour ?></li>
         </ul>
-    </body>
-</html>
-
+        <button id="showOrHideForm">Modifier le rendez-vous</button>
+        <div id="modificationForm">
+            <form action="#" method="POST">
+                <label for="newDate">Nouvelle date :</label><input type="date" name="newDate" id="newDate" value="<?= $date[0] ?>" />
+                <p><?= isset($errors['newDate']) ? $errors['newDate'] : '' ?></p>
+                <label for="newTime">Nouvel horaire :</label><input type="time" name="newTime" id="newTime" value="<?= $appointmentDetails->hour ?>" min="08:00" max="17:00" />
+                <p><?= isset($errors['newDate']) ? $errors['newTime'] : '' ?></p>
+                <input type="submit" name="modifyAppointment" id="modifyAppointment" value="Enregistrer la modification" />
+            </form>
+        </div>
+<?php
+include_once 'includes/footer.php';

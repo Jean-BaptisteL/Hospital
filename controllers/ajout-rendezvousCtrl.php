@@ -45,7 +45,7 @@ if (isset($_POST['addAppointment'])){
     }
     if (count($errorMessage) == 0) {
         $isAppointmentExists = $appointments->checkIfAppointmentExists();
-        if (!$isAppointmentExists->appointmentExists) {
+        if ($isAppointmentExists->appointmentExists == 0) {
             $appointments->addAppointment();
         }else{
             $errorMessage['final'] = 'Une erreure est survenue';

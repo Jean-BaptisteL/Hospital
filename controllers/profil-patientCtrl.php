@@ -5,13 +5,12 @@ if (!empty($_GET['id'])) {
     $patients->id = htmlspecialchars($_GET['id']);
     $patientCount = $patients->checkIfPatientExistsById();
     if ($patientCount->exists == 1) {
-        $profilPatient = $patients->getProfilPatient();
         $regexLastnameFirstname = '/^[a-zA-Z\-\'éèàêëïôûâä\sç]+$/';
         $regexDate = '/^[0-9]{4}-0[1-9]|1[0-2]-[0-2][0-9]|3[0-1]$/';
         $errorMessage = array();
         $insertSuccessOrError = '';
 
-        if (isset($_POST['addPatient'])) {
+        if (isset($_POST['modifyPatient'])) {
             if (!empty($_POST['lastname'])) {
                 if (preg_match($regexLastnameFirstname, $_POST['lastname'])) {
                     $patients->lastname = htmlspecialchars($_POST['lastname']);

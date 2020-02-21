@@ -46,15 +46,15 @@ class appointments {
     }
     
     public function getAppointmentsList(){
-        $query = 'SELECT `dateHour`, DATE_FORMAT(`dateHour`, \'%d/%m/%Y\') AS `date`, DATE_FORMAT(`dateHour`, \'%H:%i\') AS `hour`, `lastname`, `firstname`, `idPatients` '
+        $query = 'SELECT `appointments` . `id`, `dateHour`, DATE_FORMAT(`dateHour`, \'%d/%m/%Y\') AS `date`, DATE_FORMAT(`dateHour`, \'%H:%i\') AS `hour`, `lastname`, `firstname`, `idPatients` '
                 . 'FROM `appointments` '
-                . 'LEFT JOIN `patients` ON `idPatients` = `patients` . `id`';
+                . 'INNER JOIN `patients` ON `idPatients` = `patients` . `id`';
         $request = $this->dataBase->query($query);
         return $request->fetchAll(PDO::FETCH_OBJ);
     }
     
     public function getAppointmentDetails(){
-        $query = 'SELECT DATE_FORMAT(`dateHour`, \'%d/%m/%Y\') AS `date`, DATE_FORMAT(`dateHour`, \'%H:%i\') AS `hour`, `lastname`, `firstname`, DATE_FORMAT(`birthdate`, \'%d/%m/%Y\') AS `birthdate`, `phone`, `mail`  '
+        $query = 'SELECT DATE_FORMAT(`dateHour`, \'%d/%m/%Y\') AS `date`, DATE_FORMAT(`dateHour`, \'%H:%i\') AS `hour`, `dateHour`, `lastname`, `firstname`, DATE_FORMAT(`birthdate`, \'%d/%m/%Y\') AS `birthdate`, `phone`, `mail`  '
                 . 'FROM `appointments` '
                 . 'INNER JOIN `patients` ON `idPatients` = `patients` . `id` '
                 . 'WHERE `idPatients` = :idPatients AND `dateHour` = :dateHour';
@@ -63,5 +63,23 @@ class appointments {
         $statement->bindValue(':dateHour', $this->dateHour, PDO::PARAM_STR);
         $statement->execute();
         return $statement->fetch(PDO::FETCH_OBJ);
+    }
+    
+    public function modifyAppointment(){
+        $query = 'UPDATE `appointments` '
+                . 'SET `dateHour` = :dateHour '
+                . 'WHERE `id` = :id';
+        $statement = $this->dataBase->prepare($query);
+        $statement->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $statement->bindValue(':dateHour', $this->dateHour, PDO::PARAM_STR);
+        return $statement->execute();
+    }
+    
+    public function deleteAppointment(){
+        $query = 'DELETE FROM `appointments` '
+                . 'WHERE `id`=:id';
+        $statement = $this->dataBase->prepare($query);
+        $statement->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $statement->execute();
     }
 }

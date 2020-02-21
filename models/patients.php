@@ -8,6 +8,7 @@ class patients {
     public $birthdate = '1960-01-01';
     public $phone = '';
     public $mail = '';
+    public $termSearch = '';
     public $dataBase = NULL;
     
     public function __construct() {
@@ -63,12 +64,14 @@ class patients {
      * @return objet
      */
     public function getProfilPatient(){
-        $query = 'SELECT `lastname`, `firstname`, `id`, DATE_FORMAT(`birthdate`,\'%d/%m/%Y\') AS `birthdate`, `birthdate` AS `ymdBirthdate`, `phone`, `mail` FROM `patients` '
-                . 'WHERE `id`=:id';
+        $query = 'SELECT `patients`.`id`, `lastname`, `firstname`, DATE_FORMAT(`birthdate`,\'%d/%m/%Y\') AS `birthdate`, `birthdate` AS `ymdBirthdate`, `phone`, `mail`, DATE_FORMAT(`dateHour`, \'%d/%m/%y\') AS `dateAppointment`,DATE_FORMAT(`dateHour`, \'%H:%i\') AS `timeAppointment`, `idPatients`, `dateHour`, `appointments`.`id` AS `appointmentId` '
+                . 'FROM `patients` '
+                . 'LEFT JOIN `appointments` ON `patients`.`id` = `appointments`.`idPatients` '
+                . 'WHERE `patients`.`id`=:id';
         $statement = $this->dataBase->prepare($query);
         $statement->bindValue(':id', $this->id, PDO::PARAM_INT);
         $statement->execute();
-        return $statement->fetch(PDO::FETCH_OBJ);
+        return $statement->fetchAll(PDO::FETCH_OBJ);
     }
     
     public function checkIfPatientExistsById(){
@@ -93,5 +96,20 @@ class patients {
         $statement->bindValue(':phone', $this->phone, PDO::PARAM_STR);
         $statement->bindValue(':mail', $this->mail, PDO::PARAM_STR);
         return $statement->execute();
+    }
+    
+    public function deletePatient(){
+        $query = 'DELETE FROM `patients` '
+                . 'WHERE `id` = :id';
+        $statement = $this->dataBase->prepare($query);
+        $statement->bindValue(':id', $this->id, PDO::PARAM_INT);
+        return $statement->execute();
+    }
+    
+    public function searchPatient(){
+        $query = 'SELECT `lastname`, `firstname` '
+                . 'FROM `patients` '
+                . 'WHERE `lastname` LIKE :termSearch OR `firstname` LIKE :termSearch';
+        
     }
 }
