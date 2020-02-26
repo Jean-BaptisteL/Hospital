@@ -14,6 +14,9 @@ include_once 'includes/header.php';
                     <a class="pageLinks bg-primary col-6" href="ajout-rendezvous.php">Ajouter un rendez-vous</a>
                     <a class="pageLinks bg-primary col-6" href="liste-rendezvous.php">Liste des rendez-vous</a>
                 </div>
+                <div class="col-12 d-flex justify-content-around">
+                    <a class="pageLinks bg-primary col-6" href="ajout-patient-rendez-vous.php">Ajouter un patient et un rendez-vous</a>
+                </div>
             </div>
         </div>
 <?php

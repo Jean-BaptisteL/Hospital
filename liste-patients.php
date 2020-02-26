@@ -8,11 +8,12 @@ include_once 'includes/header.php';
 <div class="container-fluid">
     <a href="index.php">Accueil</a>
     <div class="row">
-        <div class="input-group col-md-3 col-sm-12">
-            <input id="searchPatient" type="text" class="form-control" placeholder="Chercher un patient" aria-label="Chercher un patient" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Chercher</button>
-            </div>
+        <div class="search-box col-md-3 col-sm-12">
+            <form action="liste-patients.php" method="POST">
+                <input type="text" name="searchInput" id="searchInput" placeholder="Chercher un patient" />
+                <input type="submit" name="searchPatient" id="searchPatient" value="Chercher" />
+            </form>
+            <div class="result"></div>
         </div>
     </div>
     <table border="1">
@@ -59,6 +60,23 @@ include_once 'includes/header.php';
             </div>
         </div>
     </div>
+    <?php
+    if ($page > 1) {
+        ?>
+        <a href="liste-patients.php?page=<?= $page - 1 ?>">Page précédente</a>
+        <?php
+    }
+    for ($i = 1; $i <= $numberOfPages; $i++) {
+        ?>
+        <a href="liste-patients.php?page=<?= $i ?>"><?= $i ?></a>
+        <?php
+    }
+    if ($page < $numberOfPages) {
+        ?>
+        <a href="liste-patients.php?page=<?= $page + 1 ?>">Page suivante</a>
+        <?php
+    }
+    ?>
 </div>
 <?php
 include_once 'includes/footer.php';

@@ -1,16 +1,5 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of appointments
- *
- * @author lmno010
- */
+include_once 'models/database.php';
 class appointments {
 
     public $id = 0;
@@ -19,11 +8,7 @@ class appointments {
     public $dataBase = NULL;
     
     public function __construct() {
-        try {
-            $this->dataBase = new PDO('mysql:host=localhost;dbname=hospitalE2N;charset=utf8', 'root', 'infiltrator');
-        } catch (Exception $ex) {
-            die('Une erreur au niveau de la base de donnée s\'est produite !');
-        }
+        $this->dataBase = database::getInstance();
     }
     
     public function addAppointment(){
